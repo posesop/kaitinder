@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Kairos KaiTinder
+servers:
+- url: http://localhost:{port}
+  description: Local server
+  variables:
+    port:
+      default: '3000'
+paths:
+  /candidates:
+    get:
+      description: Service to retrieve the candidates list
+      summary: Get candidates
+      operationId: GetCandidates
+      tags:
+      - candidates
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        required: false
+        description: The page number to return.
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        required: false
+        description: The maximun number of items to return per page.
+      responses:
+        200:
+          description: List of candidates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "./schemas/Candidate.yml#/get"
+              example:
+                $ref: "./examples/candidates_response_get_200.json"
+        400:
+          description: "Bad Request"
+    post:
+      description: Service to create a new candidates
+      summary: Create candidates
+      operationId: PostCandidate
+      tags:
+      - candidates
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: "./schemas/Candidate.yml#/post"
+            example:
+              $ref: "./examples/candidate_request_post.json"
+      responses:
+        201:
+          description: Created
+        400:
+          description: Bad Request
+  /candidates/:candidateId:
+    get:
+      description: Service to retrieve the information of a candidate.
+      summary: Get candidates
+      operationId: GetCandidate
+      tags:
+      - candidates
+      parameters:
+      - name: candidateId
+        in: path
+        schema:
+          type: string
+        required: true
+        description: Identifier of the candidate.
+      responses:
+        200:
+          description: Candidate information.
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/Candidate.yml#/get"
+              example:
+                $ref: "./examples/candidates_response_get_200.json"

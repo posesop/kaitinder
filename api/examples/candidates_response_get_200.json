@@ -1,0 +1,16 @@
+{
+  "data": [
+      {
+          "id": "5c94cd0b75e7b650a62dbb21",
+          "prop": "propValue"
+      },
+      {
+          "id": "5c94ce0c29988b50dcdc9683",
+          "prop": "propValue2"
+      },
+      {
+          "id": "5c94ce4796006850f214b351",
+          "prop": "propValue3"
+      }
+  ]
+}

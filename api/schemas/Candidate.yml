@@ -1,0 +1,18 @@
+
+get:
+  type: object
+  required:
+    - id
+    - prop
+  properties:
+    id:
+      type: string
+    prop:
+      type: string
+post:
+  type: object
+  required:
+    - prop
+  properties:
+    prop:
+      type: string
