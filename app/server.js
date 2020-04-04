@@ -1,23 +1,27 @@
 const log = require('./config/log');
 const express = require('express');
-const repository = require('./repository');
-const routes = require('./routes');
+const mongoose = require('mongoose');
 
-const router = express.Router();
-
-const init = () => {
-  const app = express();
-  return app;
+const mongoOpts = {
+  url: process.env.MONGO_URL || 'mongodb://localhost:27017/kaitinder',
+  opts: {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
 };
 
+const connectMongo = async () => mongoose.connect(mongoOpts.url, mongoOpts.opts);
 
-if (!module.parent) {
-  const server = init();
+const app = express();
+
+app.get('/',  (req, res) => {
+  res.send('Hello KaiTinder!');
+});
+
+
+connectMongo().then(() => {
   const port = process.env.PORT || 3000;
-  repository.init().then((response) => {
-    log.info(response);
-    server.listen(port, error => (error ? log.error(error) : log.info(`Server listening at port: ${port}`)));
-  });
-}
+  app.listen(port, error => (error ? log.error(error) : log.info(`Server listening at port: ${port}`)));
+});
 
-module.exports = { init };
