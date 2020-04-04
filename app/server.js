@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const mongoOpts = {
-  url: process.env.MONGO_URL || 'mongodb://localhost:27017/kaitinder',
+  url: process.env.MONGO_URL || 'mongodb+srv://admin:admin@cluster0-mrwp6.mongodb.net/kaitinder',
   opts: {
     useCreateIndex: true,
     useNewUrlParser: true,
