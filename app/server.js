@@ -1,36 +1,32 @@
 const express = require('express');
-const mongoose = require('mongoose');
 
-const config = require('./config');
 const log = require('./lib/log');
 const swagger = require('./lib/swagger');
-
-const { MONGO_HOST, MONGO_DB_NAME, PORT } = process.env;
-
-const mongoUri = `${MONGO_HOST}/${MONGO_DB_NAME}`;
-
-const connectMongo = async () => mongoose.connect(mongoUri, config.mongo);
+const mongo = require('./services/mongo');
+const middlewares = require('./middlewares');
+const routes = require('./routes');
 
 const killProcess = (err) => {
-  log.error(`Process ${process.pid} received a SIGTERM signal`, err);
+  log.error(`Process ${process.pid} fail`, err);
   process.exit(0);
 };
+
+const port = process.env.PORT;
 
 const start = async () => {
   try {
     const app = express();
 
-    app.get('/', (req, res) => {
-      res.send('Hello KaiTinder!');
-    });
+    app.use('/', routes);
 
+    app.use(middlewares.errorHandler);
 
     if (process.env.NODE_ENV === 'development') {
       await swagger.addSwaggerRoute(app, '/api-docs');
     }
 
-    await connectMongo();
-    app.listen(PORT, (error) => (error ? log.error(error) : log.info(`Server listening at port: ${PORT}`)));
+    await mongo.connect();
+    app.listen(port, (error) => (error ? log.error(error) : log.info(`Server listening at port: ${port}`)));
   } catch (e) {
     log.error(e);
     process.exit(-1);
