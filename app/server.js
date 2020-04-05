@@ -3,9 +3,11 @@ const express = require('express');
 const log = require('./lib/log');
 const swagger = require('./lib/swagger');
 const mongo = require('./services/mongo');
+const middlewares = require('./middlewares');
+const routes = require('./routes');
 
 const killProcess = (err) => {
-  log.error(`Process ${process.pid} received a SIGTERM signal`, err);
+  log.error(`Process ${process.pid} fail`, err);
   process.exit(0);
 };
 
@@ -15,10 +17,9 @@ const start = async () => {
   try {
     const app = express();
 
-    app.get('/', (req, res) => {
-      res.send('Hello KaiTinder!');
-    });
+    app.use('/', routes);
 
+    app.use(middlewares.errorHandler);
 
     if (process.env.NODE_ENV === 'development') {
       await swagger.addSwaggerRoute(app, '/api-docs');
