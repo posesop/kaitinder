@@ -45,54 +45,62 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: "./schemas/Candidate.yml#/get"
+                      $ref: '#/components/schemas/Candidate'
               example:
-                $ref: "./examples/candidates_response_get_200.json"
-        400:
-          description: "Bad Request"
-    post:
-      description: Service to create a new candidates
-      summary: Create candidates
-      operationId: PostCandidate
-      tags:
-      - candidates
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
                 data:
-                  type: array
                   items:
-                    $ref: "./schemas/Candidate.yml#/post"
-            example:
-              $ref: "./examples/candidate_request_post.json"
-      responses:
-        201:
-          description: Created
+                  - _id: 12313
+                    name: Peter
+                    photo: https://s3.amazonaws.com/uifaces/faces/twitter/jordyvdboom/128.jpg
+                    zipCode: 28009
+                    city: Madrid
+                  size: 1
+                  offset: 0
+                  limit: 9
+                  total: 20
         400:
-          description: Bad Request
-  /candidates/:candidateId:
-    get:
-      description: Service to retrieve the information of a candidate.
-      summary: Get candidates
-      operationId: GetCandidate
-      tags:
-      - candidates
-      parameters:
-      - name: candidateId
-        in: path
-        schema:
-          type: string
-        required: true
-        description: Identifier of the candidate.
-      responses:
-        200:
-          description: Candidate information.
-          content:
-            application/json:
-              schema:
-                $ref: "./schemas/Candidate.yml#/get"
-              example:
-                $ref: "./examples/candidates_response_get_200.json"
+          $ref: '#/components/responses/400'
+components:
+  schemas:
+    Candidate:
+        type: object
+        properties:
+          _id:
+            type: string
+          photo:
+            type: string
+          name:
+            type: string
+          city:
+            type: string
+          zipCode:
+            type: string
+  responses:
+    200:
+      description: Ok
+    201:
+      description: Created
+    204:
+      description: No content
+    404:
+      description: Not found
+      content:
+        application/json:
+          example:
+            status: 404
+            message: entity not found
+            data: {}
+    400:
+      description: Bad request (validation error)
+      content:
+        application/json:
+          examples:
+            paramError:
+              value:
+                status: 400
+                message: The server cannot or will not process the request due to an apparent client error
+                data:
+                  errors:
+                  - field: propname
+                    type: object.allowUnknown
+                    message: '"propname" is not allowed'
