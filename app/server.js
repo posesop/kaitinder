@@ -1,27 +1,44 @@
-const log = require('./config/log');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const mongoOpts = {
-  url: process.env.MONGO_URL || 'mongodb+srv://admin:<pass>@cluster0-mrwp6.mongodb.net/kaitinder',
-  opts: {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
+const config = require('./config');
+const log = require('./lib/log');
+const swagger = require('./lib/swagger');
+
+const { MONGO_HOST, MONGO_DB_NAME, PORT } = process.env;
+
+const mongoUri = `${MONGO_HOST}/${MONGO_DB_NAME}`;
+
+const connectMongo = async () => mongoose.connect(mongoUri, config.mongo);
+
+const killProcess = (err) => {
+  log.error(`Process ${process.pid} received a SIGTERM signal`, err);
+  process.exit(0);
 };
 
-const connectMongo = async () => mongoose.connect(mongoOpts.url, mongoOpts.opts);
+const start = async () => {
+  try {
+    const app = express();
 
-const app = express();
-
-app.get('/',  (req, res) => {
-  res.send('Hello KaiTinder!');
-});
+    app.get('/', (req, res) => {
+      res.send('Hello KaiTinder!');
+    });
 
 
-connectMongo().then(() => {
-  const port = process.env.PORT || 3000;
-  app.listen(port, error => (error ? log.error(error) : log.info(`Server listening at port: ${port}`)));
-});
+    if (process.env.NODE_ENV === 'development') {
+      await swagger.addSwaggerRoute(app, '/api-docs');
+    }
 
+    await connectMongo();
+    app.listen(PORT, (error) => (error ? log.error(error) : log.info(`Server listening at port: ${PORT}`)));
+  } catch (e) {
+    log.error(e);
+    process.exit(-1);
+  }
+};
+
+start();
+
+process.on('SIGTERM', killProcess);
+process.on('SIGINT', killProcess);
+process.on('uncaughtException', killProcess);

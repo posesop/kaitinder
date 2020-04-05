@@ -4,8 +4,8 @@
   "description": "KaiTinder from Kairos DS",
   "main": "index.js",
   "scripts": {
-    "start": "node app/server.js",
-    "start:dev": "nodemon app/server.js",
+    "start": "export $(cat .env | xargs) && node app/server.js",
+    "start:dev": "export $(cat .env | xargs) && nodemon app/server.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint ."
@@ -26,7 +26,9 @@
     "bunyan": "^1.8.12",
     "express": "^4.17.1",
     "nodemon": "^2.0.2",
-    "mongoose": "^5.9.7"
+    "mongoose": "^5.9.7",
+    "swagger-ui-express": "^4.1.2",
+    "js-yaml": "^3.13.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
