@@ -18,7 +18,7 @@ router.get(
     try {
       const { offset, limit, ...q } = req.query || {};
       const data = await Candidate.get(q, { offset, limit });
-      res.status(OK).send({ data });
+      res.status(OK).send({ data, pagination: { offset, limit } });
     } catch (e) {
       next(e);
     }
