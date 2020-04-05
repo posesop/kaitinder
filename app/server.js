@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Candidate = require('./candidate');
 
 const mongoOpts = {
-  url: process.env.MONGO_URL || 'mongodb+srv://admin:kaitinder@cluster0-mrwp6.mongodb.net/kaitinder',
+  url: process.env.MONGO_URL || 'mongodb://kai:password@127.0.0.1:27017/admin',
   opts: {
     useCreateIndex: true,
     useNewUrlParser: true,
