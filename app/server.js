@@ -1,37 +1,39 @@
-const log = require('./config/log');
 const express = require('express');
-const mongoose = require('mongoose');
-const Candidate = require('./candidate');
-const fs = require('fs');
 
-const mongoOpts = {
-  url: process.env.MONGO_URL || 'mongodb://kai:password@127.0.0.1:27017/admin',
-  opts: {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
+const log = require('./lib/log');
+const swagger = require('./lib/swagger');
+const mongo = require('./services/mongo');
+
+const killProcess = (err) => {
+  log.error(`Process ${process.pid} received a SIGTERM signal`, err);
+  process.exit(0);
 };
 
-const connectMongo = async () => mongoose.connect(mongoOpts.url, mongoOpts.opts);
+const port = process.env.PORT;
 
-const app = express();
+const start = async () => {
+  try {
+    const app = express();
 
-app.get('/',  (req, res) => {
-  res.send('Hello KaiTinder!');
-});
-
-app.get('/candidates',  async (req, res) => {
-  const candidates = await Candidate.find({});
-  res.send({ data: candidates });
-});
+    app.get('/', (req, res) => {
+      res.send('Hello KaiTinder!');
+    });
 
 
-connectMongo().then(() => {
-  const port = process.env.PORT || 3000;
-  app.listen(port, error => (error ? log.error(error) : log.info(`Server listening at port: ${port}`)));
+    if (process.env.NODE_ENV === 'development') {
+      await swagger.addSwaggerRoute(app, '/api-docs');
+    }
 
-  // const data = fs.readFileSync('data.json');
-  // const parsedData = JSON.parse(data);
-  // Candidate.insertMany(parsedData);
-});
+    await mongo.connect();
+    app.listen(port, (error) => (error ? log.error(error) : log.info(`Server listening at port: ${port}`)));
+  } catch (e) {
+    log.error(e);
+    process.exit(-1);
+  }
+};
+
+start();
+
+process.on('SIGTERM', killProcess);
+process.on('SIGINT', killProcess);
+process.on('uncaughtException', killProcess);
