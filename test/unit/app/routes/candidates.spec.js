@@ -1,5 +1,5 @@
-const candidates = require('../../../app/routes/candidates');
-const Candidate = require('../../../app/repository/candidate');
+const candidates = require('../../../../app/routes/candidates');
+const Candidate = require('../../../../app/repository/candidate');
 
 describe('Unit tests for candidates routes', () => {
   describe('getcandidates route tests', () => {
@@ -8,9 +8,9 @@ describe('Unit tests for candidates routes', () => {
         name: 'name',
         offset: 1,
         limit: 2,
-      }
+      },
     };
-    const mockSend = jest.fn(data => data);
+    const mockSend = jest.fn((data) => data);
     const mockResponse = {
       status: jest.fn().mockImplementation(() => ({
         send: mockSend,
@@ -32,7 +32,7 @@ describe('Unit tests for candidates routes', () => {
       Candidate.get = jest.fn().mockReturnValue('response');
 
       await candidates.getCandidates()(mockRequest, mockResponse, mockNext);
-      expect(Candidate.get).toHaveBeenCalledWith({ name: 'name'}, {'limit': 2, 'offset': 1});
+      expect(Candidate.get).toHaveBeenCalledWith({ name: 'name' }, { limit: 2, offset: 1 });
     });
 
     it('should response with OK status', async () => {

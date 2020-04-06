@@ -1,46 +1,42 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-          "type": "node",
-          "request": "launch",
-          "name": "Iniciar programa",
-          "program": "${workspaceFolder}/app/server.js",
-          "console": "integratedTerminal",
-          "envFile": "${workspaceFolder}/.env"
-        },
-        {
-          "name": "Nodemon",
-          "type": "node",
-          "request": "launch",
-          "runtimeExecutable": "${workspaceRoot}/node_modules/nodemon/bin/nodemon.js",
-          "args": [
-            "${workspaceRoot}/app/server.js"
-          ],
-          "cwd": "${workspaceRoot}",
-          "protocol": "inspector",
-          "console": "integratedTerminal",
-          "envFile": "${workspaceFolder}/.env"
-        },
-        {
-          "name": "Debug Jest Tests",
-          "type": "node",
-          "request": "launch",
-          "args": [
-            "--runInBand"
-          ],
-          "program": "${workspaceRoot}/node_modules/.bin/jest",
-          "console": "integratedTerminal",
-          "internalConsoleOptions": "neverOpen",
-          "cwd": "${workspaceRoot}"
-        },
-        {
-          "type": "node",
-          "request": "launch",
-          "name": "Iniciar scripts DB",
-          "program": "${workspaceFolder}/scripts/run.js",
-          "console": "integratedTerminal",
-          "envFile": "${workspaceFolder}/.env"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Iniciar programa",
+      "program": "${workspaceFolder}/app/server.js",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env.dev"
+    },
+    {
+      "name": "Nodemon",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/nodemon/bin/nodemon.js",
+      "args": ["${workspaceRoot}/app/server.js"],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "args": ["--runInBand"],
+      "program": "${workspaceRoot}/node_modules/.bin/jest",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Iniciar scripts DB",
+      "program": "${workspaceFolder}/scripts/run.js",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
 }

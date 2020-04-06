@@ -2,14 +2,38 @@
   "name": "kaitinder-ms",
   "version": "1.0.0",
   "description": "KaiTinder from Kairos DS",
-  "main": "index.js",
+  "main": "app/server.js",
   "scripts": {
-    "start": "export $(cat .env | xargs) && node app/server.js",
-    "start:dev": "export $(cat .env | xargs) && nodemon app/server.js",
+    "start": "export $(cat .env.dev | xargs) && node app/server.js",
+    "start:dev": "export $(cat .env.dev | xargs) && nodemon app/server.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
-    "initdb": "export $(cat .env | xargs) && node scripts/run.js"
+    "initdb": "export $(cat .env.dev | xargs) && node scripts/run.js"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier-eslint --write",
+      "eslint",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "printWidth": 120,
+    "semi": true,
+    "useTabs": false
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
   },
   "author": "Kairos",
   "license": "ISC",
@@ -37,7 +61,17 @@
   },
   "devDependencies": {
     "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-standard": "^4.0.0",
     "jest": "^25.1.0",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "prettier-eslint-cli": "^5.0.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "supertest": "^3.4.2",
