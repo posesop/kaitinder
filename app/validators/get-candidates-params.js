@@ -10,6 +10,7 @@ const schema = Joi.object().keys({
   photo: Joi.string(),
   city: Joi.string(),
   birthDate: Joi.string(),
+  gender: Joi.string(),
   coordinates: Joi.object().keys({
     lat: Joi.number(),
     long: Joi.number(),
