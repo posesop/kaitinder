@@ -22,4 +22,10 @@ router.get(
   candidates.getCandidate(),
 );
 
+router.post(
+  '/candidates',
+  middlewares.validation({ schema: validators.postCandidateParams, path: 'body' }),
+  candidates.postCandidate(),
+);
+
 module.exports = router;
