@@ -7,8 +7,8 @@ module.exports = new mongoose.Schema({
   birthDate: { type: String, required: true },
   city: { type: String, required: true },
   coordinates: {
-    lat: mongoose.Schema.Types.Decimal128,
-    long: mongoose.Schema.Types.Decimal128,
+    lat: { type: Number, required: false },
+    long: { type: Number, required: false },
    },
 }, {
   timestamps: true,
