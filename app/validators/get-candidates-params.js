@@ -8,7 +8,12 @@ const schema = Joi.object().keys({
   _id: idsArraySchema,
   name: Joi.string(),
   photo: Joi.string(),
-  zipCode: Joi.string(),
+  city: Joi.string(),
+  birthDate: Joi.string(),
+  coordinates: Joi.object().keys({
+    lat: Joi.number(),
+    long: Joi.number(),
+  }),
   sort: Joi.string(),
   offset: Joi.string().regex(/^\d+$/),
   limit: Joi.string().regex(/^\d+$/),
