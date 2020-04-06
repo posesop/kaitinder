@@ -3,8 +3,8 @@
 const CandidateModel = require('../../../app/repository/models/candidate');
 
 const mocks = [
-  { name: 'foo', age: 23, gender: 'M', job: 'Chief Design Engineer', country: 'France' },
-  { name: 'bar', age: 38, gender: 'F', job: 'Speech Pathologist', country: 'France' },
+  { name: 'foo', birthDate: '27/07/1990', gender: 'M', city: 'Madrid', photo: 'http://photo1.jpg' },
+  { name: 'bar', birthDate: '02/05/1991', gender: 'F', city: 'Barcelona', photo: 'http://photo2.jpg' },
 ];
 
 const createMany = async () => {
