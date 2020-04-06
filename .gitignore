@@ -63,11 +63,9 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 .history
 /.idea
+
+
+### Mac ###
+.DS_Store
