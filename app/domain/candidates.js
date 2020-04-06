@@ -2,7 +2,7 @@ const { OK } = require('http-status');
 const external = require('../services/external');
 const Candidate = require('../repository/candidate');
 
-const postCandidate = async (newCandidate) => {
+const createCandidate = async (newCandidate) => {
   const cities = await external.get(process.env.SERV_EXT_CITIES)
   const city = cities.data.find(item => item.city == newCandidate.city);
   const candidate = {
@@ -16,5 +16,5 @@ const postCandidate = async (newCandidate) => {
 };
 
 module.exports = {
-  postCandidate,
+  createCandidate,
 };

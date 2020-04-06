@@ -23,7 +23,7 @@ const getCandidate = () => async (req, res, next) => {
 
 const postCandidate = () => async (req, res, next) => {
   try {
-    const data = await candidateDomain.postCandidate(req.body);
+    const data = await candidateDomain.createCandidate(req.body);
     res.status(OK).send({ data });
   } catch (e) {
     next(e);
