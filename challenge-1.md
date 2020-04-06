@@ -1,6 +1,10 @@
 # Challenge: Endpoint para obtener listado de datos
 
-- Lanza con postman el endpoint para obtener candidatos `GET http://localhost:3000/candidates` y su respuesta debe devolver los documentos de la colección de Candidates. Ejemplo respuesta:
+- Lanza con postman el endpoint para obtener candidatos `GET http://localhost:3000/candidates` y su respuesta debe devolver los documentos de la colección de Candidates utilizando un modelo de mongoose.
+
+![alt text](images/modelo_datos.png)
+
+Ejemplo respuesta:
 
 ```json
 {
@@ -15,9 +19,7 @@
             "coordinates": {
                 "lat": 41.54,
                 "long": 2.45
-            },
-            "createdAt": "2020-04-06T15:15:57.633Z",
-            "updatedAt": "2020-04-06T15:15:57.633Z"
+            }
         },
         {
             "_id": "5e8b47ace9ea099dbf055c00",
@@ -29,9 +31,7 @@
             "coordinates": {
                 "lat": 40.9704,
                 "long": -5.67
-            },
-            "createdAt": "2020-04-06T15:15:57.634Z",
-            "updatedAt": "2020-04-06T15:15:57.634Z"
+            }
         },
         ...
     ]
