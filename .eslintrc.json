@@ -3,12 +3,14 @@
   "env": {
     "jest": true
   },
-  "plugins": [
-    "import"
-  ],
+  "plugins": ["import"],
   "rules": {
-    "import/no-extraneous-dependencies": ["error", {
-      "devDependencies": ["**/*.spec.js"]
-    }]
+    "max-len": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.spec.js"]
+      }
+    ]
   }
 }
