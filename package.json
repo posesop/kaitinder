@@ -6,7 +6,7 @@
   "scripts": {
     "start": "export $(cat .env | xargs) && node app/server.js",
     "start:dev": "export $(cat .env | xargs) && nodemon app/server.js",
-    "test": "jest",
+    "test": "export $(cat .env | xargs) && jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "initdb": "export $(cat .env | xargs) && node scripts/run.js"

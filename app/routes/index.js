@@ -3,6 +3,7 @@ const { Router } = require('express');
 const middlewares = require('../middlewares');
 const validators = require('../validators');
 const candidates = require('./candidates');
+const domain = require('../domain');
 
 const router = Router();
 
@@ -25,7 +26,7 @@ router.get(
 router.post(
   '/candidates',
   middlewares.validation({ schema: validators.postCandidateParams, path: 'body' }),
-  candidates.postCandidate(),
+  candidates.postCandidate(domain.createCandidate),
 );
 
 module.exports = router;
