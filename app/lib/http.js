@@ -9,4 +9,4 @@ const get = async (url, options = {}) => {
 
 module.exports = {
   get,
-}
+};
