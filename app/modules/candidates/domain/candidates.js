@@ -1,5 +1,4 @@
-const { AppError, HttpErrorBuilder } = require('../errors');
-const { getCities } = require('../services/cities');
+const { AppError, HttpErrorBuilder } = require('../../../errors');
 
 const getCandidates = (getAllCandidates) => async (query, opts) => getAllCandidates(query, opts);
 
@@ -26,7 +25,7 @@ const createCandidate = (getCitiesService, persist) => async (newCandidate) => {
   return persist(candidate);
 };
 
-const getCitiesInRatio = (distance) => async (coordinates, maxDistance) => {
+const getCitiesInRatio = (distance, getCities) => async (coordinates, maxDistance) => {
   const { lat, long } = coordinates;
   const cities = await getCities();
   return cities
@@ -37,14 +36,14 @@ const getCitiesInRatio = (distance) => async (coordinates, maxDistance) => {
     .map((i) => i.city);
 };
 
-const getMatches = (getOneById, getByCitiesAndAgeRangeExcludingId, distance) => async (id, opts) => {
+const getMatches = (getOneById, getByCitiesAndAgeRangeExcludingId, distance, getCities) => async (id, opts) => {
   const { offset, limit } = opts;
   const candidate = await getOneById(id);
   if (!candidate) {
     throw new AppError(HttpErrorBuilder.NOT_FOUND(1));
   }
   const MAX_KM = 100;
-  const matchCities = await getCitiesInRatio(distance)(candidate.coordinates, MAX_KM);
+  const matchCities = await getCitiesInRatio(distance, getCities)(candidate.coordinates, MAX_KM);
   const birthDate = new Date(candidate.birthDate);
   const ageRange = 5;
   const ageFilteredCandidates = await getByCitiesAndAgeRangeExcludingId(

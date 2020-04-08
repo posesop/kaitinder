@@ -3,7 +3,7 @@ const bodyparser = require('body-parser');
 
 const swagger = require('../lib/swagger');
 const log = require('../lib/log');
-const middlewares = require('../middlewares');
+const middlewares = require('../routes/middlewares');
 const routes = require('../routes');
 
 const port = process.env.PORT;
@@ -12,10 +12,11 @@ let app;
 
 const init = () => {
   app = express();
+  const router = express.Router();
+  routes.init(router);
+
   app.use(bodyparser.json());
-
-  app.use('/', routes);
-
+  app.use('/', router);
   app.use(middlewares.errorHandler);
 
   if (process.env.NODE_ENV === 'development') {

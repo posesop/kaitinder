@@ -1,5 +1,5 @@
-const candidate = require('../../../../app/repository/candidate');
-const Candidate = require('../../../../app/repository/models/candidate');
+const candidate = require('../../../../../app/modules/candidates/repository/candidate');
+const Candidate = require('../../../../../app/modules/candidates/repository/models/candidate');
 
 describe('Unit tests for candidate repository', () => {
   describe('create function', () => {

@@ -1,4 +1,4 @@
-const { createCandidate } = require('../../../../app/domain/candidates');
+const { createCandidate } = require('../../../../../app/modules/candidates/domain/candidates');
 
 describe('Unit tests for candidates domain', () => {
   describe('createCandidate function', () => {

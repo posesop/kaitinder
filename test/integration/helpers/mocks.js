@@ -1,7 +1,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
-const CandidateRepository = require('../../../app/repository/candidate');
-const candidateDomain = require('../../../app/domain/candidates');
+const CandidateRepository = require('../../../app/modules/candidates/repository/candidate');
+const candidateDomain = require('../../../app/modules/candidates/domain/candidates');
 const { cities } = require('../mocks/cities');
 
 const mocks = [

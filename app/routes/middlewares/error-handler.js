@@ -1,6 +1,5 @@
-
-const { AppError, HttpErrorBuilder } = require('../errors');
-const log = require('../lib/log');
+const { AppError, HttpErrorBuilder } = require('../../errors');
+const log = require('../../lib/log');
 
 const errorHandler = (err, req, res, next) => {
   const error = err instanceof AppError ? err : HttpErrorBuilder.SERVICE_UNAVAILABLE();

@@ -1,7 +1,7 @@
 const log = require('./lib/log');
 
 const mongo = require('./services/mongo');
-const server = require('./services/server');
+const server = require('./server');
 
 const killProcess = (err) => {
   log.error(`Process ${process.pid} fail`, err);

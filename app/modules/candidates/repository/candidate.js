@@ -4,7 +4,7 @@ const {
 } = require('mongoose');
 
 const { Candidate } = require('./models');
-const datetime = require('../lib/datetime');
+const datetime = require('../../../lib/datetime');
 
 const defaultProjection = {
   name: 1,
