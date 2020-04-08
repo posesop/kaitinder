@@ -2,8 +2,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const mongoose = require('mongoose');
 
-const server = require('../../../app/services/server');
-
+const server = require('../../../app/server');
 
 async function initMongoServer() {
   const mongoMemoryServer = new MongoMemoryServer({

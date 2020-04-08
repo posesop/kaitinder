@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const config = require('../config');
-const log = require('../lib/log');
+const config = require('../../config');
+const log = require('../../libs/log');
 
 const { MONGO_HOST, MONGO_DB_NAME } = process.env;
 

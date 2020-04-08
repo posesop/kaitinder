@@ -1,26 +1,35 @@
-const log = require('./lib/log');
+const express = require('express');
+const bodyparser = require('body-parser');
 
-const mongo = require('./services/mongo');
-const server = require('./services/server');
+const swagger = require('./libs/swagger');
+const log = require('./libs/log');
+const middlewares = require('./routes/middlewares');
+const routes = require('./routes');
 
-const killProcess = (err) => {
-  log.error(`Process ${process.pid} fail`, err);
-  process.exit(0);
-};
+const port = process.env.PORT;
 
-const start = async () => {
-  try {
-    await mongo.connect();
-    server.init();
-    server.listen();
-  } catch (e) {
-    log.error(e);
-    process.exit(-1);
+let app;
+
+const init = () => {
+  app = express();
+  app.use(bodyparser.json());
+
+  app.use('/', routes);
+
+  app.use(middlewares.errorHandler);
+
+  if (process.env.NODE_ENV === 'development') {
+    swagger.addSwaggerRoute(app, '/api-docs');
   }
+
+  return app;
 };
 
-start();
+const listen = () => {
+  app.listen(port, (error) => (error ? log.error(error) : log.info(`Server listening at port: ${port}`)));
+};
 
-process.on('SIGTERM', killProcess);
-process.on('SIGINT', killProcess);
-process.on('uncaughtException', killProcess);
+module.exports = {
+  listen,
+  init,
+};
