@@ -2,8 +2,8 @@ const request = require('supertest');
 const nock = require('nock');
 
 const { setup, mocks, teardown } = require('./helpers');
-
 const mockCities = require('./mocks/cities');
+
 const path = '/candidates';
 
 describe('POST', () => {
@@ -20,9 +20,8 @@ describe('POST', () => {
   });
 
   describe(path, () => {
-
     beforeEach(async () => {
-      mockCities.getSomething();
+      mockCities.getCities();
       await mocks.createMany();
     });
 
@@ -45,16 +44,18 @@ describe('POST', () => {
     it('should return created candidate info', async () => {
       const body = {
         name: 'Victor Pose',
-        birthDate: '27/07/1990',
+        birthDate: '1990-07-05',
         city: 'Salamanca',
-        gender: 'M'
+        gender: 'M',
       };
       const resp = await request(app)
         .post(path)
         .set('Accept', 'application/json')
         .send(body);
       expect(resp.status).toEqual(200);
-      const { body: { data } } = resp;
+      const {
+        body: { data },
+      } = resp;
       expect(data.name).toEqual(body.name);
       expect.stringMatching(data._id, /^[0-9a-fA-F]{24}$/);
     });

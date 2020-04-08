@@ -1,7 +1,7 @@
 const request = require('supertest');
 const nock = require('nock');
 
-const { setup, mocks, teardown } = require('./helpers');
+const { setup, mocks } = require('./helpers');
 
 const mockedCandidates = mocks.mocks;
 const path = '/candidates';
@@ -15,12 +15,7 @@ describe('GET', () => {
     ({ app } = env);
   });
 
-  afterAll(async () => {
-    await teardown(env);
-  });
-
   describe(path, () => {
-
     beforeEach(async () => {
       await mocks.createMany();
     });
@@ -58,7 +53,9 @@ describe('GET', () => {
           })
           .send();
         expect(resp.status).toEqual(200);
-        const { body: { data } } = resp;
+        const {
+          body: { data },
+        } = resp;
         expect(data.map((i) => i.name)).toEqual(expected.map((i) => i.name));
       });
     });
@@ -75,7 +72,9 @@ describe('GET', () => {
           .query({ limit, offset })
           .send();
         expect(resp.status).toEqual(200);
-        const { body: { data, pagination } } = resp;
+        const {
+          body: { data, pagination },
+        } = resp;
         expect(data.map((i) => i.name)).toEqual(expected.map((i) => i.name));
         expect(pagination.offset).toEqual(offset.toString());
         expect(pagination.limit).toEqual(limit.toString());

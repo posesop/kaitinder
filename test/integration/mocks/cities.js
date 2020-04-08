@@ -2,23 +2,32 @@ const nock = require('nock');
 
 const { env } = process;
 
-const URL = process.env.CITIES_HOST;
-const path = process.env.CITIES_PATH;
-const cities = [{ city: 'Madrid', lat: 1, long: 2 }]
+const URL = env.CITIES_HOST;
+const path = env.CITIES_PATH;
 
-const getSomethingNotFound = () => {
-  return nock(URL)
-    .get(path)
-    .reply(404);
-};
+const cities = [
+  {
+    city: 'Madrid',
+    lat: 40.4,
+    long: -3.6834,
+  },
+  {
+    city: 'Palma',
+    lat: 39.5743,
+    long: 2.6542,
+  },
+];
 
-const getSomething = () => {
-  return nock(URL)
-    .get(path)
-    .reply(200, cities);
-};
+const getCitiesNotFound = () => nock(URL)
+  .get(path)
+  .reply(404);
+
+const getCities = () => nock(URL)
+  .get(path)
+  .reply(200, cities);
 
 module.exports = {
-  getSomethingNotFound,
-  getSomething,
+  getCitiesNotFound,
+  getCities,
+  cities,
 };

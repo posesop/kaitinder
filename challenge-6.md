@@ -1,7 +1,8 @@
 # Challenge: Nuevo endpoint de creación de información que necesita conexión con api de terceros
 
-- Lanza con postman el endpoint para obtener los candidatos que matchean contigo con paginación. Para considerar que un candidato es match se tendrá en cuenta la afinidad y deberá ser >0.
-La afinidad se calcula en base a varios parámetros. Un factor es la edad, si es la misma o +-1 año suma 1 punto, y si es entre +5 o -5 sumará 1. Otro factor es la proximidad, deberá estar comprendida en un radio máximo de 3km.
+- Lanza con postman el endpoint para obtener los candidatos que matchean contigo con paginación.
+- Para considerar que un candidato es match se tendrá en cuenta la afinidad.
+La afinidad se calcula en base a varios parámetros. Un factor es la edad, si es entre +5 o -5. Otro factor es la proximidad, deberá estar comprendida en un radio máximo de 100km.
 - Si los path params (candidateId) tiene un formato erróneo deberá devolver un error 400 Bad Request. *Nota*: Los objectid de mongo siguen la regexp /^[0-9a-fA-F]{24}$/
 - Si el candidato no existe deberá devolvuer un error 404 not found.
 

@@ -1,5 +1,19 @@
 /* eslint-disable radix */
+const {
+  Types: { ObjectId },
+} = require('mongoose');
+
 const { Candidate } = require('./models');
+const datetime = require('../lib/datetime');
+
+const defaultProjection = {
+  name: 1,
+  photo: 1,
+  gender: 1,
+  city: 1,
+  coordinates: 1,
+  birthDate: { $dateToString: { format: '%Y-%m-%d', date: '$birthDate' } },
+};
 
 const create = async (newCandidate) => {
   const resp = await Candidate.create(new Candidate(newCandidate));
@@ -15,18 +29,40 @@ const get = async (query, options) => {
     aggregation.push({ $limit });
   }
 
+  aggregation.push({
+    $project: defaultProjection,
+  });
+
   const results = await Candidate.aggregate(aggregation).exec();
 
   return results;
 };
 
-const getById = async (_id) => {
-  const result = await Candidate.findOne({ _id });
+const getById = async (id) => {
+  const [result] = await get({ _id: new ObjectId(id) });
   return result;
 };
+
+const getByCitiesAndAgeRangeExcludingId = async (id, matchCities, birthYear, years) => {
+  const match = {
+    _id: { $ne: new ObjectId(id) },
+    city: { $in: matchCities },
+    birthDate: {
+      $lte: datetime.addYears(birthYear, years),
+      $gte: datetime.addYears(birthYear, -years),
+    },
+  };
+  const results = await get(match);
+
+  return results;
+};
+
+const deleteMany = (q) => Candidate.deleteMany(q);
 
 module.exports = {
   get,
   getById,
   create,
+  getByCitiesAndAgeRangeExcludingId,
+  deleteMany,
 };
