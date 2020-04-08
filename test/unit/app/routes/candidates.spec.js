@@ -1,4 +1,4 @@
-const candidates = require('../../../../app/routes/candidates');
+const candidates = require('../../../../app/routes/candidates.controller');
 const Candidate = require('../../../../app/repository/candidate');
 
 describe('Unit tests for candidates routes', () => {

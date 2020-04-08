@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 const middlewares = require('../middlewares');
 const validators = require('../validators');
-const candidates = require('./candidates');
+const candidates = require('./candidates.controller');
 const domain = require('../domain');
 
 const router = Router();
@@ -21,6 +21,12 @@ router.get(
   '/candidates/:id',
   middlewares.validation({ schema: validators.idPath, path: 'params' }),
   candidates.getCandidate(),
+);
+
+router.get(
+  '/candidates/:id/matches',
+  middlewares.validation({ schema: validators.idPath, path: 'params' }),
+  candidates.getCandidateMatches(),
 );
 
 router.post(

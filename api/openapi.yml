@@ -17,14 +17,14 @@ paths:
       tags:
       - candidates
       parameters:
-      - name: page
+      - name: offset
         in: query
         schema:
           type: integer
           minimum: 1
           default: 1
         required: false
-        description: The page number to return.
+        description: Pagination offset
       - name: limit
         in: query
         schema:
@@ -45,24 +45,154 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Candidate'
+                      $ref: '#/components/schemas/CandidateResponse'
+                  pagination:
+                    type: object
+                    properties:
+                      offset:
+                        type: number
+                      limit:
+                        type: number
               example:
                 data:
-                  items:
-                  - _id: 12313
+                  - _id: 5e8b47ace9ea099dbf055bff
                     name: Peter
                     photo: https://s3.amazonaws.com/uifaces/faces/twitter/jordyvdboom/128.jpg
-                    zipCode: 28009
+                    birthDate: 15/11/1991
                     city: Madrid
-                  size: 1
+                    coordinates:
+                      lat: 41.54
+                      long: 2.45
+                pagination:
                   offset: 0
                   limit: 9
-                  total: 20
         400:
           $ref: '#/components/responses/400'
+    post:
+      tags:
+        - candidates
+      summary: Create new candidate
+      responses:
+        201:
+          $ref: '#/components/responses/201'
+        400:
+          $ref: '#/components/responses/400'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Candidate'
+            example:
+              name: Pedro
+              birthDate: 1990-07-01
+              gender: 'M'
+              city: 'Madrid'
+              photo: 'http://photo1.jpg'
+  /candidates/{candidateId}:
+    parameters:
+    - name: candidateId
+      in: path
+      description: MongoDB ObjectId
+      required: true
+      example: 5e8b47ace9ea099dbf055c02
+      schema:
+        type: string
+    get:
+      tags:
+        - candidates
+      responses:
+        200:
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CandidateResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+  /candidates/{candidateId}/matches:
+    parameters:
+    - name: candidateId
+      in: path
+      description: MongoDB ObjectId
+      example: 5e8b47ace9ea099dbf055c02
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+        - candidates
+      description: Candidates that could match with candidateId
+      parameters:
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        required: false
+        description: Pagination offset
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        required: false
+        description: The maximun number of items to return per page.
+      responses:
+        200:
+          description: List of match candidates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CandidateResponse'
+                  pagination:
+                    type: object
+                    properties:
+                      offset:
+                        type: number
+                      limit:
+                        type: number
+              example:
+                data:
+                  - _id: 5e8b47ace9ea099dbf055bff
+                    name: Peter
+                    photo: https://s3.amazonaws.com/uifaces/faces/twitter/jordyvdboom/128.jpg
+                    birthDate: 1991-11-15
+                    city: Madrid
+                    coordinates:
+                      lat: 41.54
+                      long: 2.45
+                pagination:
+                  offset: 0
+                  limit: 9
 components:
   schemas:
     Candidate:
+      type: object
+      properties:
+          photo:
+            type: string
+          name:
+            type: string
+          city:
+            type: string
+          birthDate:
+            type: string
+          gender:
+            type: string
+    CandidateResponse:
         type: object
         properties:
           _id:
@@ -73,8 +203,17 @@ components:
             type: string
           city:
             type: string
-          zipCode:
+          birthDate:
             type: string
+          gender:
+            type: string
+          coordinates:
+            type: object
+            properties:
+              lat:
+                type: string
+              long:
+                type: string
   responses:
     200:
       description: Ok

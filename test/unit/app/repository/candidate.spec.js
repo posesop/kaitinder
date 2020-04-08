@@ -23,7 +23,21 @@ describe('Unit tests for candidate repository', () => {
 
       const result = await candidate.get({}, {});
 
-      expect(Candidate.aggregate).toBeCalledWith([{ $match: {} }, { $sort: { createdAt: 1 } }, { $skip: 0 }]);
+      expect(Candidate.aggregate).toBeCalledWith([
+        { $match: {} },
+        { $sort: { createdAt: 1 } },
+        { $skip: 0 },
+        {
+          $project: {
+            name: 1,
+            photo: 1,
+            gender: 1,
+            city: 1,
+            coordinates: 1,
+            birthDate: { $dateToString: { format: '%Y-%m-%d', date: '$birthDate' } },
+          },
+        },
+      ]);
       expect(result).toEqual('responseData');
     });
 
@@ -44,6 +58,16 @@ describe('Unit tests for candidate repository', () => {
         { $sort: { createdAt: 1 } },
         { $skip: 3 },
         { $limit: 1 },
+        {
+          $project: {
+            name: 1,
+            photo: 1,
+            gender: 1,
+            city: 1,
+            coordinates: 1,
+            birthDate: { $dateToString: { format: '%Y-%m-%d', date: '$birthDate' } },
+          },
+        },
       ]);
       expect(result).toEqual('responseData');
     });
@@ -61,22 +85,31 @@ describe('Unit tests for candidate repository', () => {
         { $match: { filter: 'any' } },
         { $sort: { createdAt: 1 } },
         { $skip: 0 },
+        {
+          $project: {
+            name: 1,
+            photo: 1,
+            gender: 1,
+            city: 1,
+            coordinates: 1,
+            birthDate: { $dateToString: { format: '%Y-%m-%d', date: '$birthDate' } },
+          },
+        },
       ]);
       expect(result).toEqual('responseData');
     });
   });
 
   describe('getById function', () => {
-    it('should call findOne by id', async () => {
-      Candidate.findOne = jest.fn().mockReturnValue('responseData');
+    it('should call aggregate with id filter', async () => {
+      const execObj = {
+        exec: jest.fn().mockReturnValue(['responseData']),
+      };
+      Candidate.aggregate = jest.fn().mockReturnValue(execObj);
 
-      const result = await candidate.getById('anyId');
+      const result = await candidate.getById('5e7c97e7a3969c0012137c0c');
 
-      expect(Candidate.findOne).toBeCalledWith(
-        expect.objectContaining({
-          _id: 'anyId',
-        }),
-      );
+      expect(Candidate.aggregate).toBeCalled();
       expect(result).toEqual('responseData');
     });
   });
