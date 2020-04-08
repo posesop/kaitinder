@@ -1,6 +1,5 @@
 const { OK } = require('http-status');
 const Candidate = require('../repository/candidate');
-const candidateDomain = require('../domain/candidates');
 
 const getCandidates = () =>  async (req, res, next) => {
   try {
@@ -21,9 +20,9 @@ const getCandidate = () => async (req, res, next) => {
   }
 };
 
-const postCandidate = () => async (req, res, next) => {
+const postCandidate = (createCandidate) => async (req, res, next) => {
   try {
-    const data = await candidateDomain.createCandidate(req.body);
+    const data = await createCandidate(req.body);
     res.status(OK).send({ data });
   } catch (e) {
     next(e);

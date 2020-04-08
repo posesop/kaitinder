@@ -1,10 +1,10 @@
-const { OK } = require('http-status');
-const external = require('../services/external');
-const Candidate = require('../repository/candidate');
+const createCandidate = (
+  getCities,
+  persist
+  ) => async (newCandidate) => {
 
-const createCandidate = async (newCandidate) => {
-  const cities = await external.get(process.env.SERV_EXT_CITIES)
-  const city = cities.data.find(item => item.city == newCandidate.city);
+  const cities = await getCities();
+  const city = cities.find(item => item.city == newCandidate.city);
   const candidate = {
     ...newCandidate,
     coordinates: {
@@ -12,7 +12,8 @@ const createCandidate = async (newCandidate) => {
       long: city ? city.long: null,
     }
   }
-  return Candidate.create(candidate);
+  return persist(candidate);
+
 };
 
 module.exports = {

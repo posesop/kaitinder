@@ -4,9 +4,9 @@
   "description": "KaiTinder from Kairos DS",
   "main": "app/server.js",
   "scripts": {
-    "start": "export $(cat .env.dev | xargs) && node app/server.js",
-    "start:dev": "export $(cat .env.dev | xargs) && nodemon app/server.js",
-    "test": "jest",
+    "start": "export $(cat .env | xargs) && node app/server.js",
+    "start:dev": "export $(cat .env | xargs) && nodemon app/server.js",
+    "test": "export $(cat .env | xargs) && jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "initdb": "export $(cat .env.dev | xargs) && node scripts/run.js"
