@@ -1,20 +1,18 @@
 const { OK } = require('http-status');
-const Candidate = require('../repository/candidate');
-const candidateDomain = require('../domain/candidates');
 
-const getCandidates = () => async (req, res, next) => {
+const getCandidates = (getCandidatesDomain) => async (req, res, next) => {
   try {
     const { offset, limit, ...q } = req.query || {};
-    const data = await Candidate.get(q, { offset, limit });
+    const data = await getCandidatesDomain(q, { offset, limit });
     res.status(OK).send({ data, pagination: { offset, limit } });
   } catch (e) {
     next(e);
   }
 };
 
-const getCandidate = () => async (req, res, next) => {
+const getCandidate = (getById) => async (req, res, next) => {
   try {
-    const data = await candidateDomain.getById(req.params.id);
+    const data = await getById(req.params.id);
     res.status(OK).send({ data });
   } catch (e) {
     next(e);
@@ -30,10 +28,10 @@ const postCandidate = (createCandidate) => async (req, res, next) => {
   }
 };
 
-const getCandidateMatches = () => async (req, res, next) => {
+const getCandidateMatches = (getMatches) => async (req, res, next) => {
   try {
     const { offset, limit } = req.query || {};
-    const data = await candidateDomain.getMatches(req.params.id, { offset, limit });
+    const data = await getMatches(req.params.id, { offset, limit });
     res.status(OK).send({ data, pagination: { offset, limit } });
   } catch (e) {
     next(e);

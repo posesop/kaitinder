@@ -14,19 +14,19 @@ router.get('/', (req, res) => {
 router.get(
   '/candidates',
   middlewares.validation({ schema: validators.getCandidateParams, path: 'query' }),
-  candidates.getCandidates(),
+  candidates.getCandidates(domain.getCandidates),
 );
 
 router.get(
   '/candidates/:id',
   middlewares.validation({ schema: validators.idPath, path: 'params' }),
-  candidates.getCandidate(),
+  candidates.getCandidate(domain.getById),
 );
 
 router.get(
   '/candidates/:id/matches',
   middlewares.validation({ schema: validators.idPath, path: 'params' }),
-  candidates.getCandidateMatches(),
+  candidates.getCandidateMatches(domain.getMatches),
 );
 
 router.post(
