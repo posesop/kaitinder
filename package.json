@@ -2,10 +2,10 @@
   "name": "kaitinder-ms",
   "version": "1.0.0",
   "description": "KaiTinder from Kairos DS",
-  "main": "app/server.js",
+  "main": "app/index.js",
   "scripts": {
-    "start": "export $(cat .env.dev | xargs) && node app/server.js",
-    "start:dev": "export $(cat .env.dev | xargs) && nodemon app/server.js",
+    "start": "export $(cat .env.dev | xargs) && node app/index.js",
+    "start:dev": "export $(cat .env.dev | xargs) && nodemon app/index.js",
     "test": "export $(cat .env.test | xargs) && jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
@@ -63,7 +63,8 @@
     "mongoose": "^5.9.7",
     "nock": "^11.7.0",
     "nodemon": "^2.0.2",
-    "swagger-ui-express": "^4.1.2"
+    "swagger-ui-express": "^4.1.2",
+    "mongodb-memory-server": "^6.2.4"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
@@ -81,7 +82,6 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "supertest": "^3.4.2",
-    "mongodb-memory-server": "^6.2.4",
     "uuid": "^3.4.0"
   }
 }

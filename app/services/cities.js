@@ -1,4 +1,4 @@
-const http = require('../lib/http');
+const http = require('../libs/http');
 
 const { CITIES_HOST, CITIES_PATH } = process.env;
 

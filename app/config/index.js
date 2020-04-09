@@ -1,4 +1,4 @@
-const mongo = require('./mongo');
+const mongo = require('../repository/mongo/config');
 
 module.exports = {
   mongo,

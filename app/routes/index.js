@@ -1,8 +1,8 @@
 const { Router } = require('express');
 
-const middlewares = require('../middlewares');
+const middlewares = require('./middlewares');
 const validators = require('../validators');
-const candidates = require('./candidates.controller');
+const candidates = require('./controllers/candidates');
 const domain = require('../domain');
 
 const router = Router();
